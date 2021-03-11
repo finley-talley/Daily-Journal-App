@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Daily Journal App</string>
+    <string name="set_notif">Please choose the time you\'d like to be reminded to enter into a journal each day.</string>
+    <string name="select">Select</string>
 </resources>

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyJournalApp">
         <activity android:name=".EditJournal"></activity>
-        <activity android:name=".NotificationActivity" />
+        <activity android:name=".NotificationActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
