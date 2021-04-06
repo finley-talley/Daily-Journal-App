@@ -2,6 +2,8 @@ package com.example.dailyjournalapp;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,21 +69,25 @@ public class NotificationFragment extends Fragment {
         TimePicker picker = (TimePicker)rootView.findViewById(R.id.timePicker1);
         picker.setIs24HourView(false);
 
+        Log.i("MSG", "TimePicker done");
+
         // select button takes u to main screen
-        Button selectBtn = (Button)rootView.findViewById(R.id.selectBtn);
-        selectBtn.setOnClickListener(new View.OnClickListener()
+        Button select = (Button)rootView.findViewById(R.id.selectBtn);
+        select.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view) {
-                RegisterFragment newFrag = new RegisterFragment();
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, newFrag, "register_fragment")
+            public void onClick(View view)
+            {
+                Log.i("MSG", "Select button clicked");
+                JournalItemFragment newFrag = new JournalItemFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, newFrag, "journal_item_fragment")
                         .addToBackStack(null)
                         .commit();
             }
         });
 
 
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+        return rootView;
     }
 }
