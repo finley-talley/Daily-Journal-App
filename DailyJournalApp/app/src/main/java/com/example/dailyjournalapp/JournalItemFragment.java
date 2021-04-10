@@ -1,6 +1,7 @@
 package com.example.dailyjournalapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.dailyjournalapp.dummy.DummyContent;
 
@@ -56,6 +62,9 @@ public class JournalItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
+        // Enable menu
+        setHasOptionsMenu(true);
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -70,5 +79,33 @@ public class JournalItemFragment extends Fragment {
 
         Log.i("MSG", "JournalItemFragment view launched");
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        return;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.opt_set_notif:
+                NotificationFragment notifFrag = new NotificationFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, notifFrag, "notification_fragment")
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case R.id.opt_new_entry:
+                EditJournalFragment editFrag = new EditJournalFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, editFrag, "edit_journal_fragment")
+                        .addToBackStack(null)
+                        .commit();
+                break;
+
+        }
+        return true;
     }
 }

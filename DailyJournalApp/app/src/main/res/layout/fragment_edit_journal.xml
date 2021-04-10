@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditJournalFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/titleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/titleLabelTxt"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/titleHint"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toEndOf="@+id/titleLabel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/journalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/journalLabelTxt"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
+
+        <EditText
+            android:id="@+id/editJournalText"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/journalHint"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/journalLabel" />
+
+        <TextView
+            android:id="@+id/moodLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Mood"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editJournalText" />
+
+        <SeekBar
+            android:id="@+id/moodBar"
+            android:layout_width="257dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="8dp"
+            android:max="10"
+            android:progress="5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moodLabel" />
+
+        <TextView
+            android:id="@+id/badLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginRight="108dp"
+            android:text="Bad"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toStartOf="@+id/okayLabel"
+            app:layout_constraintTop_toBottomOf="@+id/moodBar" />
+
+        <TextView
+            android:id="@+id/okayLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Okay"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moodBar" />
+
+        <TextView
+            android:id="@+id/greatLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="96dp"
+            android:layout_marginTop="8dp"
+            android:text="Great"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="@+id/okayLabel"
+            app:layout_constraintTop_toBottomOf="@+id/moodBar" />
+
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginRight="108dp"
+            android:text="Delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextDate2" />
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="108dp"
+            android:layout_marginLeft="108dp"
+            android:layout_marginTop="44dp"
+            android:text="Save"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextDate2" />
+
+        <TextView
+            android:id="@+id/datetimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Date and Time:"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/badLabel" />
+
+        <EditText
+            android:id="@+id/editTextDate2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/datetimeLabel" />
+
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="time"
+            app:layout_constraintStart_toEndOf="@+id/editTextDate2"
+            app:layout_constraintTop_toBottomOf="@+id/datetimeLabel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

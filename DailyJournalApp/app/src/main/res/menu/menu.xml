@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/opt_set_notif"
+        android:title="Set Notification Time"/>
+    <item android:id="@+id/opt_new_entry"
+        android:title="Make New Journal Entry"/>
+</menu>
