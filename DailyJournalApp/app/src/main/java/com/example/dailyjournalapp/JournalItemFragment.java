@@ -2,6 +2,7 @@ package com.example.dailyjournalapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,7 +20,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.dailyjournalapp.dummy.DummyContent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -30,6 +34,8 @@ public class JournalItemFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private Cursor mCursor;
+    private List<Map<Integer, String>> mItems = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -74,7 +80,18 @@ public class JournalItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyJournalItemRecyclerViewAdapter(DummyContent.ITEMS));
+
+            mCursor = getActivity().getContentResolver().query(JournalContentProvider.CONTENT_URI, null, null, null, null);
+
+            if (mCursor.moveToFirst()) {
+                do {
+                    Map<Integer, String> hm = new HashMap<>();
+                    hm.put(mCursor.getInt(0), mCursor.getString(1));
+                    mItems.add(hm);
+                } while (mCursor.moveToNext());
+            }
+
+            recyclerView.setAdapter(new MyJournalItemRecyclerViewAdapter(mItems));
         }
 
         Log.i("MSG", "JournalItemFragment view launched");

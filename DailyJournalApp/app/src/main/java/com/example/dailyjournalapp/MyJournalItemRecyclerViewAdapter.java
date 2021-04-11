@@ -2,24 +2,21 @@ package com.example.dailyjournalapp;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.dailyjournalapp.dummy.DummyContent.DummyItem;
-
 import java.util.List;
+import java.util.Map;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyJournalItemRecyclerViewAdapter extends RecyclerView.Adapter<MyJournalItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Map<Integer, String>> mValues;
 
-    public MyJournalItemRecyclerViewAdapter(List<DummyItem> items) {
+
+    public MyJournalItemRecyclerViewAdapter(List<Map<Integer, String>> items) {
         mValues = items;
     }
 
@@ -33,8 +30,8 @@ public class MyJournalItemRecyclerViewAdapter extends RecyclerView.Adapter<MyJou
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).get(0));
+        holder.mContentView.setText(mValues.get(position).get(1));
     }
 
     @Override
@@ -46,7 +43,7 @@ public class MyJournalItemRecyclerViewAdapter extends RecyclerView.Adapter<MyJou
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Map<Integer, String> mItem;
 
         public ViewHolder(View view) {
             super(view);
