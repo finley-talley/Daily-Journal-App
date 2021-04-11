@@ -11,7 +11,7 @@
         android:theme="@style/Theme.DailyJournalApp">
         <provider
             android:name=".JournalContentProvider"
-            android:authorities="journal_table"
+            android:authorities="com.example.dailyjournalapp.provider"
             android:enabled="true"
             android:exported="true"></provider>
 
