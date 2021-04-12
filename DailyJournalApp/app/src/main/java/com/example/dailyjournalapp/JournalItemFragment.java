@@ -81,17 +81,22 @@ public class JournalItemFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            mCursor = getActivity().getContentResolver().query(JournalContentProvider.CONTENT_URI, null, null, null, null);
+            mCursor = getActivity().getContentResolver()
+                                   .query(JournalContentProvider.CONTENT_URI, null, null, null, null);
 
-            if (mCursor.moveToFirst()) {
+            if (mCursor != null && mCursor.moveToFirst()) {
                 do {
                     Map<Integer, String> hm = new HashMap<>();
                     hm.put(mCursor.getInt(0), mCursor.getString(1));
                     mItems.add(hm);
+                    Log.i("MSG", "Adding " + mCursor.getString(1));
                 } while (mCursor.moveToNext());
+                recyclerView.setAdapter(new MyJournalItemRecyclerViewAdapter(mItems,
+                        item -> Toast.makeText(getContext(), item.get(1), Toast.LENGTH_LONG).show()));
             }
 
-            recyclerView.setAdapter(new MyJournalItemRecyclerViewAdapter(mItems));
+
+
         }
 
         Log.i("MSG", "JournalItemFragment view launched");

@@ -14,9 +14,14 @@ import java.util.Map;
 public class MyJournalItemRecyclerViewAdapter extends RecyclerView.Adapter<MyJournalItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<Map<Integer, String>> mValues;
+    private final OnItemClickListener mListener;
 
+    public interface OnItemClickListener {
+        void onItemClick(Map<Integer, String> item);
+    }
 
-    public MyJournalItemRecyclerViewAdapter(List<Map<Integer, String>> items) {
+    public MyJournalItemRecyclerViewAdapter(List<Map<Integer, String>> items, OnItemClickListener listener) {
+        mListener = listener;
         mValues = items;
     }
 
@@ -32,6 +37,7 @@ public class MyJournalItemRecyclerViewAdapter extends RecyclerView.Adapter<MyJou
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).get(0));
         holder.mContentView.setText(mValues.get(position).get(1));
+        holder.bind(mValues.get(position), mListener);
     }
 
     @Override
@@ -50,6 +56,14 @@ public class MyJournalItemRecyclerViewAdapter extends RecyclerView.Adapter<MyJou
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
+        }
+
+        public void bind(final Map<Integer, String> item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
 
         @Override

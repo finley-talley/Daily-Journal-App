@@ -32,7 +32,18 @@ public class MainActivity extends AppCompatActivity {
         values.put(JournalContentProvider.COLUMN_TEXT, jrnlTxt);
         values.put(JournalContentProvider.COLUMN_MOOD, 10);
 
-        Uri uri = getContentResolver().insert(JournalContentProvider.CONTENT_URI, values);
+        getContentResolver().insert(JournalContentProvider.CONTENT_URI, values);
+
+        ContentValues[] values2 = new ContentValues[5];
+        for (int i=0; i<5; i++) {
+            ContentValues cv = new ContentValues();
+            cv.put(JournalContentProvider.COLUMN_TITLE, "Title " + (i+1));
+            cv.put(JournalContentProvider.COLUMN_TEXT, "Test text " + (i+1));
+            cv.put(JournalContentProvider.COLUMN_MOOD, (i+1));
+            values2[i] = cv;
+        }
+
+        getContentResolver().bulkInsert(JournalContentProvider.CONTENT_URI, values2);
 
         NotificationFragment notifFrag = new NotificationFragment();
         FragmentManager manager = getSupportFragmentManager();
