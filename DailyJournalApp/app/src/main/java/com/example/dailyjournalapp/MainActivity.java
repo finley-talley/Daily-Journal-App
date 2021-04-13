@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Cursor mCursor;
+    public Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
         String jrnlTxt = "This is my first journal entry! " +
                 "I'm really excited to start using this app.";
 
-        values.put(JournalContentProvider.COLUMN_TITLE, "My First Journal Entry");
+        values.put(JournalContentProvider.COLUMN_TITLE, "First Journal Entry :)");
         values.put(JournalContentProvider.COLUMN_TEXT, jrnlTxt);
         values.put(JournalContentProvider.COLUMN_MOOD, 10);
 
-        getContentResolver().insert(JournalContentProvider.CONTENT_URI, values);
+        Uri uri = getApplicationContext().getContentResolver().insert(JournalContentProvider.CONTENT_URI, values);
 
         ContentValues[] values2 = new ContentValues[5];
         for (int i=0; i<5; i++) {
@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getContentResolver().bulkInsert(JournalContentProvider.CONTENT_URI, values2);
+
+        mCursor = getContentResolver()
+                .query(JournalContentProvider.CONTENT_URI, null, null, null, null);
 
         NotificationFragment notifFrag = new NotificationFragment();
         FragmentManager manager = getSupportFragmentManager();

@@ -84,6 +84,7 @@ public class JournalItemFragment extends Fragment {
             mCursor = getActivity().getContentResolver()
                                    .query(JournalContentProvider.CONTENT_URI, null, null, null, null);
 
+
             if (mCursor != null && mCursor.moveToFirst()) {
                 do {
                     Map<Integer, String> hm = new HashMap<>();
