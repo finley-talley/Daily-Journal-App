@@ -1,8 +1,10 @@
 package com.example.dailyjournalapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,10 +68,8 @@ public class NotificationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
 
         // set up time picker
-        TimePicker picker = (TimePicker)rootView.findViewById(R.id.timePicker1);
+        TimePicker picker = (TimePicker) rootView.findViewById(R.id.timePicker1);
         picker.setIs24HourView(false);
-
-        Log.i("MSG", "TimePicker done");
 
         // select button takes u to main screen
         Button select = (Button)rootView.findViewById(R.id.selectBtn);
@@ -79,15 +79,37 @@ public class NotificationFragment extends Fragment {
             public void onClick(View view)
             {
                 Log.i("MSG", "Select button clicked");
-                JournalItemFragment newFrag = new JournalItemFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, newFrag, "journal_item_fragment")
+                        .replace(R.id.frameLayout, new JournalItemFragment(), "journal_item_fragment")
                         .addToBackStack(null)
                         .commit();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("notificationTime", setTime(picker));
+                editor.apply();
             }
         });
 
-
+        Log.i("MSG", "TimePicker done");
         return rootView;
+    }
+
+    private String setTime(TimePicker picker){
+        String time = "";
+        int hour = picker.getHour();
+        int minute = picker.getMinute();
+
+
+        if(hour < 10){
+            time += '0';
+        }
+        time += "" + hour + ':';
+
+        if(minute < 10){
+            time += '0';
+        }
+        time += minute;
+
+        return time;
     }
 }
