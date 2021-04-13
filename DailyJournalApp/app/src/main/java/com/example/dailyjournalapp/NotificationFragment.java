@@ -1,16 +1,20 @@
 package com.example.dailyjournalapp;
 
-import android.content.SharedPreferences;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,14 +83,21 @@ public class NotificationFragment extends Fragment {
             public void onClick(View view)
             {
                 Log.i("MSG", "Select button clicked");
+                Intent notifyIntent = new Intent(getActivity(), AlarmReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast
+                        (getActivity().getApplicationContext(), 1, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getActivity().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, picker.getHour());
+                calendar.set(Calendar.MINUTE, picker.getMinute());
+                Log.i("MSG", "NotifTime: " + picker.getHour() + ":" + picker.getMinute());
+                calendar.set(Calendar.SECOND, 1);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        AlarmManager.INTERVAL_DAY, pendingIntent);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, new JournalItemFragment(), "journal_item_fragment")
                         .addToBackStack(null)
                         .commit();
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("notificationTime", setTime(picker));
-                editor.apply();
             }
         });
 
