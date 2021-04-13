@@ -1,7 +1,6 @@
 package com.example.dailyjournalapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.dailyjournalapp.dummy.DummyContent;
 
@@ -39,7 +37,6 @@ public class JournalItemFragment extends Fragment {
     }
 
     // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static JournalItemFragment newInstance(int columnCount) {
         JournalItemFragment fragment = new JournalItemFragment();
         Bundle args = new Bundle();
@@ -84,23 +81,20 @@ public class JournalItemFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
-        return;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.opt_set_notif:
-                NotificationFragment notifFrag = new NotificationFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, notifFrag, "notification_fragment")
+                        .replace(R.id.frameLayout, new NotificationFragment(), "notification_fragment")
                         .addToBackStack(null)
                         .commit();
                 break;
             case R.id.opt_new_entry:
-                EditJournalFragment editFrag = new EditJournalFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, editFrag, "edit_journal_fragment")
+                        .replace(R.id.frameLayout, new EditJournalFragment(), "edit_journal_fragment")
                         .addToBackStack(null)
                         .commit();
                 break;
