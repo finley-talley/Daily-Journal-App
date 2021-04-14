@@ -95,7 +95,7 @@ public class NotificationFragment extends Fragment {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         AlarmManager.INTERVAL_DAY, pendingIntent);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, new JournalItemFragment(), "journal_item_fragment")
+                        .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
                         .addToBackStack(null)
                         .commit();
             }

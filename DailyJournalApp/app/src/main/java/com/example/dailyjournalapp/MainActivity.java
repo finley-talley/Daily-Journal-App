@@ -1,9 +1,18 @@
 package com.example.dailyjournalapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
+
+    public Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         } else {
             getSupportFragmentManager().beginTransaction()
-                .add(R.id.frameLayout, new JournalItemFragment(), "journal_item_fragment")
+                .add(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
                 .addToBackStack(null)
                 .commit();
         }
