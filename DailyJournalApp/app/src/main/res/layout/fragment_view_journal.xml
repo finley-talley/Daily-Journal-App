@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/titleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/titleLabelTxt"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/viewTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            app:layout_constraintStart_toEndOf="@+id/titleLabel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/journalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/journalLabelTxt"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleLabel" />
+
+        <TextView
+            android:id="@+id/viewJournalText"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:gravity="start|top"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/journalLabel" />
+
+        <TextView
+            android:id="@+id/moodLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Mood"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewJournalText" />
+
+        <SeekBar
+            android:id="@+id/moodBar"
+            android:layout_width="257dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="8dp"
+            android:max="10"
+            android:progress="5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moodLabel" />
+
+        <TextView
+            android:id="@+id/badLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginRight="108dp"
+            android:text="Bad"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toStartOf="@+id/okayLabel"
+            app:layout_constraintTop_toBottomOf="@+id/moodBar" />
+
+        <TextView
+            android:id="@+id/okayLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Okay"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/moodBar" />
+
+        <TextView
+            android:id="@+id/greatLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginLeft="96dp"
+            android:layout_marginTop="8dp"
+            android:text="Great"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="@+id/okayLabel"
+            app:layout_constraintTop_toBottomOf="@+id/moodBar" />
+
+        <Button
+            android:id="@+id/prevBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginRight="108dp"
+            android:text="Previous"
+            android:onClick="previous"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/badLabel" />
+
+        <Button
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="108dp"
+            android:layout_marginLeft="108dp"
+            android:layout_marginTop="44dp"
+            android:text="Next"
+            android:onClick="next"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/badLabel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
