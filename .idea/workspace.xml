@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc3197b8-59d6-4a45-9ff7-657a22bbfdc5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/DailyJournalApp/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/DailyJournalApp/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +21,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/DailyJournalApp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="SvnConfiguration">
@@ -42,9 +42,14 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="95" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1615419086150" />
-    <state x="421" y="95" key="FileChooserDialogImpl" timestamp="1615419075385">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state x="505" y="115" key="FileChooserDialogImpl" timestamp="1618259321797">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="421" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1615419075385" />
+    <state x="505" y="115" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1618259321797" />
+    <state x="277" y="57" key="SettingsEditor" timestamp="1618259361422">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1618259361422" />
   </component>
 </project>
