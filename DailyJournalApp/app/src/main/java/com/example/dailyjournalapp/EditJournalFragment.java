@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import java.util.Date;
 import static java.text.DateFormat.getDateTimeInstance;
 
 public class EditJournalFragment extends Fragment {
@@ -33,6 +33,10 @@ public class EditJournalFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             rowID = getArguments().getInt(ARG_ROWID);
+            Log.i("MSG", "Got row ID: " + rowID);
+        }
+        else {
+            rowID = -1;
         }
     }
 
@@ -54,17 +58,46 @@ public class EditJournalFragment extends Fragment {
         if (rowID != -1) {
             if (mCursor != null && mCursor.moveToFirst()) {
 
-                String editTitleText = mCursor.getString(1);
+                String editTitleText = mCursor.getString(2);
                 editTitle.setText(editTitleText);
-                String editJournalText = mCursor.getString(2);
+                String editJournalText = mCursor.getString(3);
                 editJournal.setText(editJournalText);
-                int moodProgress = mCursor.getInt(3);
+                int moodProgress = mCursor.getInt(4);
                 moodBar.setProgress(moodProgress);
 
             }
         }
 
-        Button selectBtn = (Button) rootView.findViewById(R.id.selectBtn);
+        Button saveBtn = (Button) rootView.findViewById(R.id.saveBtn);
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getData(getActivity());
+
+                if (rowID == -1) { // this is a new entry
+
+                    ContentValues cv = getContentValues(getActivity());
+
+                    JournalContract.addEntry(getContext(), cv);
+
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
+                            .addToBackStack(null)
+                            .commit();
+                }
+                else { // we are updating an entry
+                    boolean success = save(getActivity());
+                    if (success) {
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
+            }
+        });
 
         return rootView;
 
@@ -87,35 +120,36 @@ public class EditJournalFragment extends Fragment {
         return values;
     }
 
-    public static boolean save(Activity activity){
+    public static boolean save(Activity activity) {
         getData(activity);
 
         boolean error = false;
 
         //Check empty
-        for(EditText e : data){
+        for (EditText e : data) {
             e.setBackgroundResource(androidx.appcompat.R.drawable.abc_edit_text_material);
-            if(e.getText().toString().trim().isEmpty()){
-                e.setBackgroundColor(Color.argb(50,255,0,0));
+            if (e.getText().toString().trim().isEmpty()) {
+                e.setBackgroundColor(Color.argb(50, 255, 0, 0));
                 Toast.makeText(activity, activity.getString(R.string.emptyToast), Toast.LENGTH_SHORT).show();
                 error = true;
             }
         }
 
         //Check ID against database
-        if(UserContract.entryExists(activity.getApplicationContext(), JournalContentProvider.getNumEntries()+1)){
+        if (JournalContract.entryExists(activity.getApplicationContext(), JournalContentProvider.getNumEntries() + 1)) {
             Toast.makeText(activity, activity.getString(R.string.entryAlreadyExistsToast), Toast.LENGTH_SHORT).show();
             error = true;
         }
 
         //Success Toast
-        if(!error){
+        if (!error) {
             Toast.makeText(activity, activity.getString(R.string.saveSuccess), Toast.LENGTH_LONG).show();
-            UserContract.addEntry(activity.getApplicationContext(), getContentValues(activity));
+            JournalContract.editEntry(activity.getApplicationContext(), getContentValues(activity));
             return true;
         }
 
         return false;
+    }
 
 
 

@@ -4,11 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-public class UserContract {
+public class JournalContract {
 
     public static void addEntry(Context context, ContentValues values){
         context.getContentResolver().insert(JournalContentProvider.CONTENT_URI, values);
     }
+
+    public static void editEntry(Context context, ContentValues values){
+        context.getContentResolver().update(JournalContentProvider.CONTENT_URI, values, null, null);
+    }
+
 
     public static Cursor queryEntry(Context context, final int entryNum){
         return context.getContentResolver().query(

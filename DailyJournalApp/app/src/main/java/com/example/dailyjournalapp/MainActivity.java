@@ -3,12 +3,11 @@ package com.example.dailyjournalapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-
-    public Cursor mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

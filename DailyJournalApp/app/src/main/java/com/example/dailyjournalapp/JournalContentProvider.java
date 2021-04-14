@@ -29,6 +29,7 @@ public class JournalContentProvider extends ContentProvider {
             TABLE_NAME +  // Table's name
             "( " +               // The columns in the table
             "_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_ENTRYNUM + " INTEGER, " +
             COLUMN_TITLE + " TEXT, " +
             COLUMN_TEXT + " TEXT, " +
             COLUMN_MOOD + " INTEGER )";
@@ -54,16 +55,9 @@ public class JournalContentProvider extends ContentProvider {
 
     private MainDatabaseHelper mOpenHelper;
 
-    private static final String SQL_CREATE_MAIN = "CREATE TABLE " + TABLE_NAME +  // Table's name
-            "(" + // The columns in the table
-            COLUMN_ENTRYNUM + " INTEGER PRIMARY KEY, " +
-            COLUMN_TITLE + " TEXT, " +
-            COLUMN_TEXT + " TEXT, " +
-            COLUMN_MOOD + " INTEGER)";
-
     @Override
     public boolean onCreate() {
-//        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
+        //getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
         mOpenHelper = new MainDatabaseHelper(getContext());
         numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
         return true;
