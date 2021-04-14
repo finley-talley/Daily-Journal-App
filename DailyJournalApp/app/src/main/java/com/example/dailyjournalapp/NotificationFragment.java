@@ -69,7 +69,7 @@ public class NotificationFragment extends Fragment {
         TimePicker picker = (TimePicker)rootView.findViewById(R.id.timePicker1);
         picker.setIs24HourView(false);
 
-        Log.i("MSG", "TimePicker done");
+        Log.i("MSG", "TimePicker done [NotificationFragment]");
 
         // select button takes u to main screen
         Button select = (Button)rootView.findViewById(R.id.selectBtn);
@@ -78,7 +78,7 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onClick(View view)
             {
-                Log.i("MSG", "Select button clicked");
+                Log.i("MSG", "Select button clicked [NotificationFragment]");
                 JournalItemFragment newFrag = new JournalItemFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, newFrag, "journal_item_fragment")

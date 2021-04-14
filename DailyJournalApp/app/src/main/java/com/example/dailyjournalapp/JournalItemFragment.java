@@ -37,14 +37,8 @@ public class JournalItemFragment extends Fragment {
     private Cursor mCursor;
     private List<Map<Integer, String>> mItems = new ArrayList<>();
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public JournalItemFragment() {
-    }
 
-    // TODO: Customize parameter initialization
+
     @SuppressWarnings("unused")
     public static JournalItemFragment newInstance(int columnCount) {
         JournalItemFragment fragment = new JournalItemFragment();
@@ -82,31 +76,32 @@ public class JournalItemFragment extends Fragment {
             }
 
             mCursor = getActivity().getContentResolver()
-                                   .query(JournalContentProvider.CONTENT_URI, null, null, null, null);
+                    .query(JournalContentProvider.CONTENT_URI, null, null, null, null);
 
             if (mCursor != null && mCursor.moveToFirst()) {
                 do {
                     Map<Integer, String> hm = new HashMap<>();
                     hm.put(mCursor.getInt(0), mCursor.getString(1));
                     mItems.add(hm);
-                    Log.i("MSG", "Adding " + mCursor.getString(1));
+                    Log.i("MSG", "Adding " + mCursor.getString(1) + " [JournalItemFragment]");
                 } while (mCursor.moveToNext());
                 recyclerView.setAdapter(new MyJournalItemRecyclerViewAdapter(mItems,
                         item -> Toast.makeText(getContext(), item.get(1), Toast.LENGTH_LONG).show()));
+            }else{
+                Log.i("MSG", "Null cursor [JournalItemFragment]");
             }
 
 
 
         }
 
-        Log.i("MSG", "JournalItemFragment view launched");
+        Log.i("MSG", "JournalItemFragment view launched [JournalItemFragment]");
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
-        return;
     }
 
     @Override
