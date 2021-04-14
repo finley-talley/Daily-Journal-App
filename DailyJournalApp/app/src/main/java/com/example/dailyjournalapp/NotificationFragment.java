@@ -79,9 +79,8 @@ public class NotificationFragment extends Fragment {
             public void onClick(View view)
             {
                 Log.i("MSG", "Select button clicked [NotificationFragment]");
-                JournalItemFragment newFrag = new JournalItemFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, newFrag, "journal_item_fragment")
+                        .replace(R.id.frameLayout, new ViewJournalFragment(), "view_journal_fragment")
                         .addToBackStack(null)
                         .commit();
             }

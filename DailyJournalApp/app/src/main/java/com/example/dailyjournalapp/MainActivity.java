@@ -2,7 +2,6 @@ package com.example.dailyjournalapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,15 +14,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getSupportFragmentManager().beginTransaction()
-            .add(R.id.frameLayout, new JournalItemFragment(), "journal_item_fragment")
+            .add(R.id.frameLayout, new ViewJournalFragment(), "view_journal_fragment")
             .addToBackStack(null)
             .commit();
+    }
 
+    public void previous(View view){
+        ViewJournalFragment.previous(this);
+    }
+
+    public void next(View view){
+        ViewJournalFragment.next(this);
     }
 
     public void delete(View view){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, new JournalItemFragment(), "journal_item_fragment")
+                .replace(R.id.frameLayout, new ViewJournalFragment(), "view_journal_fragment")
                 .addToBackStack(null)
                 .commit();
     }
@@ -31,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public void save(View view){
         if(EditJournalFragment.save(this)){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, new JournalItemFragment(), "journal_item_fragment")
+                    .replace(R.id.frameLayout, new ViewJournalFragment(), "view_journal_fragment")
                     .addToBackStack(null)
                     .commit();
         }
