@@ -17,7 +17,7 @@ public class NotificationService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle("Daily Journal");
-        builder.setContentText("Click to today's journal entry!");
+        builder.setContentText("Click to start today's journal entry!");
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setAutoCancel(true);
 
