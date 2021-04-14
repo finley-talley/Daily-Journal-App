@@ -26,7 +26,7 @@ public class EditJournalFragment extends Fragment {
     private static EditText[] data;
     private static SeekBar moodBar;
     private static final String ARG_ROWID = "rowID";
-    private static int rowID = -1;
+    private static int rowID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,11 +50,10 @@ public class EditJournalFragment extends Fragment {
         EditText editJournal = (EditText) rootView.findViewById(R.id.editJournalText);
         SeekBar moodBar = (SeekBar) rootView.findViewById(R.id.moodBar);
 
+        // loads in journal entry if we clicked on one
         String mSelectionClause = "_ID = ?";
         String[] mSelectionArgs = new String[] {Integer.toString(rowID)};
-
         Cursor mCursor = getActivity().getContentResolver().query(JournalContentProvider.CONTENT_URI, null, mSelectionClause, mSelectionArgs, null);
-
         if (rowID != -1) {
             if (mCursor != null && mCursor.moveToFirst()) {
 
@@ -68,8 +67,8 @@ public class EditJournalFragment extends Fragment {
             }
         }
 
+        // save or create new journal entry
         Button saveBtn = (Button) rootView.findViewById(R.id.saveBtn);
-
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
