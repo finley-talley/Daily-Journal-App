@@ -1,5 +1,9 @@
 package com.example.dailyjournalapp;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
@@ -9,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,7 +72,7 @@ public class NotificationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
 
         // set up time picker
-        TimePicker picker = (TimePicker)rootView.findViewById(R.id.timePicker1);
+        TimePicker picker = (TimePicker) rootView.findViewById(R.id.timePicker1);
         picker.setIs24HourView(false);
 
         Log.i("MSG", "TimePicker done [NotificationFragment]");
@@ -78,16 +84,45 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onClick(View view)
             {
-                Log.i("MSG", "Select button clicked [NotificationFragment]");
-                JournalItemFragment newFrag = new JournalItemFragment();
+                Log.i("MSG", "Select button clicked");
+                Intent notifyIntent = new Intent(getActivity(), AlarmReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast
+                        (getActivity().getApplicationContext(), 1, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getActivity().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, picker.getHour());
+                calendar.set(Calendar.MINUTE, picker.getMinute());
+                Log.i("MSG", "NotifTime: " + picker.getHour() + ":" + picker.getMinute());
+                calendar.set(Calendar.SECOND, 1);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        AlarmManager.INTERVAL_DAY, pendingIntent);
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayout, newFrag, "journal_item_fragment")
+                        .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
                         .addToBackStack(null)
                         .commit();
             }
         });
 
-
+        Log.i("MSG", "TimePicker done");
         return rootView;
+    }
+
+    private String setTime(TimePicker picker){
+        String time = "";
+        int hour = picker.getHour();
+        int minute = picker.getMinute();
+
+
+        if(hour < 10){
+            time += '0';
+        }
+        time += "" + hour + ':';
+
+        if(minute < 10){
+            time += '0';
+        }
+        time += minute;
+
+        return time;
     }
 }

@@ -22,8 +22,17 @@ public class JournalContentProvider extends ContentProvider {
 
     private static int numEntries;
 
+
     public static final String AUTHORITY = "com.example.dailyjournalapp.provider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
+    private static final String SQL_CREATE_MAIN = "CREATE TABLE " +
+            TABLE_NAME +  // Table's name
+            "( " +               // The columns in the table
+            "_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_TITLE + " TEXT, " +
+            COLUMN_TEXT + " TEXT, " +
+            COLUMN_MOOD + " INTEGER )";
+
 
     protected static final class MainDatabaseHelper extends SQLiteOpenHelper {
         MainDatabaseHelper(Context context) {
@@ -38,6 +47,7 @@ public class JournalContentProvider extends ContentProvider {
         @Override
         public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
 //            db.execSQL("drop table " + TABLE_NAME);   //ONLY USED FOR CLEARING DATABASE
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             onCreate(db);
         }
     }
