@@ -13,10 +13,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction()
-            .add(R.id.frameLayout, new ViewJournalFragment(), "view_journal_fragment")
-            .addToBackStack(null)
-            .commit();
+        if (getIntent().hasExtra("fromNotif")) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frameLayout, new EditJournalFragment(), "edit_journal_fragment")
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frameLayout, new ViewJournalFragment(), "view_journal_fragment")
+                    .addToBackStack(null)
+                    .commit();
+        }
+
     }
 
     public void previous(View view){
