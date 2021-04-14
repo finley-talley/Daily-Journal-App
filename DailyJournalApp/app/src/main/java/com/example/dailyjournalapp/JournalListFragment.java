@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -61,6 +62,22 @@ public class JournalListFragment extends Fragment {
         // setting adapter
         ListView lv = (ListView) rootView.findViewById(R.id.list);
         lv.setAdapter(adapter);
+
+        // Item on click listener
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                EditJournalFragment newFrag = new EditJournalFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("rowID", (i+1));
+                newFrag.setArguments(bundle);
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayout, newFrag, "edit_journal_fragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         // TODO: update adapter?
 

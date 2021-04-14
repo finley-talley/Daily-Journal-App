@@ -28,7 +28,7 @@ public class JournalContentProvider extends ContentProvider {
     private static final String SQL_CREATE_MAIN = "CREATE TABLE " +
             TABLE_NAME +  // Table's name
             "( " +               // The columns in the table
-            " _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_TITLE + " TEXT, " +
             COLUMN_TEXT + " TEXT, " +
             COLUMN_MOOD + " INTEGER )";

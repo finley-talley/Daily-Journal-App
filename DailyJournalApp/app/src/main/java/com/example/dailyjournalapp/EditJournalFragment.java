@@ -1,5 +1,6 @@
 package com.example.dailyjournalapp;
 
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.SeekBar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,14 +18,11 @@ import android.view.ViewGroup;
  */
 public class EditJournalFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
+    private static final String ARG_ROWID = "rowID";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int rowID = -1;
 
     public EditJournalFragment() {
         // Required empty public constructor
@@ -39,10 +39,10 @@ public class EditJournalFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static EditJournalFragment newInstance(String param1, String param2) {
         EditJournalFragment fragment = new EditJournalFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -50,8 +50,7 @@ public class EditJournalFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            rowID = getArguments().getInt(ARG_ROWID);
         }
     }
 
@@ -59,6 +58,31 @@ public class EditJournalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_journal, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_edit_journal, container, false);
+
+        EditText editTitle = (EditText) rootView.findViewById(R.id.editTitleText);
+        EditText editJournal = (EditText) rootView.findViewById(R.id.editJournalText);
+        SeekBar moodBar = (SeekBar) rootView.findViewById(R.id.moodBar);
+
+        String mSelectionClause = "_ID = ?";
+        String[] mSelectionArgs = new String[] {Integer.toString(rowID)};
+
+        Cursor mCursor = getActivity().getContentResolver().query(JournalContentProvider.CONTENT_URI, null, mSelectionClause, mSelectionArgs, null);
+
+        if (rowID != -1) {
+            if (mCursor != null && mCursor.moveToFirst()) {
+
+                String editTitleText = mCursor.getString(1);
+                editTitle.setText(editTitleText);
+                String editJournalText = mCursor.getString(2);
+                editJournal.setText(editJournalText);
+                int moodProgress = mCursor.getInt(3);
+                moodBar.setProgress(moodProgress);
+
+            }
+
+        }
+
+        return rootView;
     }
 }
