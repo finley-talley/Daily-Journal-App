@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".EditJournalFragment">
+    android:layout_height="match_parent" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -127,8 +125,9 @@
             android:layout_marginEnd="108dp"
             android:layout_marginRight="108dp"
             android:text="Delete"
+            android:onClick="delete"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate2" />
+            app:layout_constraintTop_toBottomOf="@+id/badLabel" />
 
         <Button
             android:id="@+id/saveBtn"
@@ -138,44 +137,9 @@
             android:layout_marginLeft="108dp"
             android:layout_marginTop="44dp"
             android:text="Save"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate2" />
-
-        <TextView
-            android:id="@+id/datetimeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="20dp"
-            android:text="Date and Time:"
-            android:textSize="20sp"
+            android:onClick="save"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/badLabel" />
-
-        <EditText
-            android:id="@+id/editTextDate2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:inputType="date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/datetimeLabel" />
-
-        <EditText
-            android:id="@+id/editTextTime"
-            android:layout_width="129dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:inputType="time"
-            app:layout_constraintStart_toEndOf="@+id/editTextDate2"
-            app:layout_constraintTop_toBottomOf="@+id/datetimeLabel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

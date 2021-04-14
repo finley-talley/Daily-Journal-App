@@ -5,26 +5,26 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 public class JournalContentProvider extends ContentProvider {
     public final static String DBNAME = "JournalDB";
     public final static String TABLE_NAME = "journaltable";
+    public final static String COLUMN_ENTRYNUM = "entryNum";
     public final static String COLUMN_TITLE = "title";
     public final static String COLUMN_TEXT = "text";
     public final static String COLUMN_MOOD = "mood";
     // leaving date/time out for now
 
+    private static int numEntries;
+
+
     public static final String AUTHORITY = "com.example.dailyjournalapp.provider";
-    public static final Uri CONTENT_URI = Uri.parse(
-            "content://com.example.dailyjournalapp.provider/" + TABLE_NAME);
-
-    private static UriMatcher sUriMatcher;
-
-    private MainDatabaseHelper mOpenHelper;
-
+    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
     private static final String SQL_CREATE_MAIN = "CREATE TABLE " +
             TABLE_NAME +  // Table's name
             "( " +               // The columns in the table
@@ -32,6 +32,7 @@ public class JournalContentProvider extends ContentProvider {
             COLUMN_TITLE + " TEXT, " +
             COLUMN_TEXT + " TEXT, " +
             COLUMN_MOOD + " INTEGER )";
+
 
     protected static final class MainDatabaseHelper extends SQLiteOpenHelper {
         MainDatabaseHelper(Context context) {
@@ -45,12 +46,27 @@ public class JournalContentProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
+//            db.execSQL("drop table " + TABLE_NAME);   //ONLY USED FOR CLEARING DATABASE
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
             onCreate(db);
         }
     }
 
-    public JournalContentProvider() {
+    private MainDatabaseHelper mOpenHelper;
+
+    private static final String SQL_CREATE_MAIN = "CREATE TABLE " + TABLE_NAME +  // Table's name
+            "(" + // The columns in the table
+            COLUMN_ENTRYNUM + " INTEGER PRIMARY KEY, " +
+            COLUMN_TITLE + " TEXT, " +
+            COLUMN_TEXT + " TEXT, " +
+            COLUMN_MOOD + " INTEGER)";
+
+    @Override
+    public boolean onCreate() {
+//        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
+        mOpenHelper = new MainDatabaseHelper(getContext());
+        numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
+        return true;
     }
 
     @Override
@@ -63,6 +79,10 @@ public class JournalContentProvider extends ContentProvider {
         return null;
     }
 
+    public static int getNumEntries(){
+        return numEntries;
+    }
+
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         String title = values.getAsString(COLUMN_TITLE).trim();
@@ -73,21 +93,16 @@ public class JournalContentProvider extends ContentProvider {
         }
 
         long id = mOpenHelper.getWritableDatabase().insert(TABLE_NAME, null, values);
-
+        numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
+        Log.i("MSG", "Number of Entries: " + numEntries + " [JournalContentProvider]");
         return Uri.withAppendedPath(CONTENT_URI, "" + id);
-    }
-
-    @Override
-    public boolean onCreate() {
-        mOpenHelper = new MainDatabaseHelper(getContext());
-        return true;
     }
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        return mOpenHelper.getReadableDatabase().query(TABLE_NAME, projection, selection, selectionArgs,
-                null, null, sortOrder);
+        return mOpenHelper.getReadableDatabase().query(TABLE_NAME, projection,
+                selection, selectionArgs, null, null, sortOrder);
     }
 
     @Override

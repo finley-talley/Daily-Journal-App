@@ -75,6 +75,8 @@ public class NotificationFragment extends Fragment {
         TimePicker picker = (TimePicker) rootView.findViewById(R.id.timePicker1);
         picker.setIs24HourView(false);
 
+        Log.i("MSG", "TimePicker done [NotificationFragment]");
+
         // select button takes u to main screen
         Button select = (Button)rootView.findViewById(R.id.selectBtn);
         select.setOnClickListener(new View.OnClickListener()

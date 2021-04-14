@@ -1,5 +1,9 @@
 package com.example.dailyjournalapp;
 
+import android.app.Activity;
+import android.content.ContentValues;
+import android.graphics.Color;
+
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -9,42 +13,79 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Toast;
 import android.widget.SeekBar;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditJournalFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Date;
+import static java.text.DateFormat.getDateTimeInstance;
+
 public class EditJournalFragment extends Fragment {
 
-
+    private static final int TITLE = 0, TEXT = 1;
+    private static EditText[] data;
+    private static SeekBar moodBar;
     private static final String ARG_ROWID = "rowID";
-
-    // TODO: Rename and change types of parameters
     private int rowID = -1;
 
-    public EditJournalFragment() {
-        // Required empty public constructor
+
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    //                          Bundle savedInstanceState) {
+    //     // Inflate the layout for this fragment
+    //     return inflater.inflate(R.layout.fragment_edit_journal, container, false);
+    // }
+    //
+
+    private static void getData(Activity activity){
+        data = new EditText[2];
+        data[TITLE] = (EditText) activity.findViewById(R.id.editTitleText);
+        data[TEXT] = (EditText) activity.findViewById(R.id.editJournalText);
+        moodBar = (SeekBar) activity.findViewById(R.id.moodBar);
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditJournalFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditJournalFragment newInstance(String param1, String param2) {
-        EditJournalFragment fragment = new EditJournalFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-        return fragment;
+    private static ContentValues getContentValues(Activity activity) {
+        ContentValues values = new ContentValues();
+        values.put(JournalContentProvider.COLUMN_ENTRYNUM, JournalContentProvider.getNumEntries()+1);
+        values.put(JournalContentProvider.COLUMN_TITLE, data[TITLE].getText().toString());
+        values.put(JournalContentProvider.COLUMN_TEXT, data[TEXT].getText().toString());
+        values.put(JournalContentProvider.COLUMN_MOOD, moodBar.getProgress());
+        return values;
     }
+
+    public static boolean save(Activity activity){
+        getData(activity);
+
+        boolean error = false;
+
+        //Check empty
+        for(EditText e : data){
+            e.setBackgroundResource(androidx.appcompat.R.drawable.abc_edit_text_material);
+            if(e.getText().toString().trim().isEmpty()){
+                e.setBackgroundColor(Color.argb(50,255,0,0));
+                Toast.makeText(activity, activity.getString(R.string.emptyToast), Toast.LENGTH_SHORT).show();
+                error = true;
+            }
+        }
+
+        //Check ID against database
+        if(UserContract.entryExists(activity.getApplicationContext(), JournalContentProvider.getNumEntries()+1)){
+            Toast.makeText(activity, activity.getString(R.string.entryAlreadyExistsToast), Toast.LENGTH_SHORT).show();
+            error = true;
+        }
+
+        //Success Toast
+        if(!error){
+            Toast.makeText(activity, activity.getString(R.string.saveSuccess), Toast.LENGTH_LONG).show();
+            UserContract.addEntry(activity.getApplicationContext(), getContentValues(activity));
+            return true;
+        }
+
+        return false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,5 +125,8 @@ public class EditJournalFragment extends Fragment {
         }
 
         return rootView;
+
     }
+
+
 }
