@@ -12,13 +12,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.SeekBar;
 
 import java.util.Date;
 import static java.text.DateFormat.getDateTimeInstance;
@@ -29,16 +26,50 @@ public class EditJournalFragment extends Fragment {
     private static EditText[] data;
     private static SeekBar moodBar;
     private static final String ARG_ROWID = "rowID";
-    private int rowID = -1;
+    private static int rowID = -1;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            rowID = getArguments().getInt(ARG_ROWID);
+        }
+    }
 
-    // @Override
-    // public View onCreateView(LayoutInflater inflater, ViewGroup container,
-    //                          Bundle savedInstanceState) {
-    //     // Inflate the layout for this fragment
-    //     return inflater.inflate(R.layout.fragment_edit_journal, container, false);
-    // }
-    //
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_edit_journal, container, false);
+
+        EditText editTitle = (EditText) rootView.findViewById(R.id.editTitleText);
+        EditText editJournal = (EditText) rootView.findViewById(R.id.editJournalText);
+        SeekBar moodBar = (SeekBar) rootView.findViewById(R.id.moodBar);
+
+        String mSelectionClause = "_ID = ?";
+        String[] mSelectionArgs = new String[] {Integer.toString(rowID)};
+
+        Cursor mCursor = getActivity().getContentResolver().query(JournalContentProvider.CONTENT_URI, null, mSelectionClause, mSelectionArgs, null);
+
+        if (rowID != -1) {
+            if (mCursor != null && mCursor.moveToFirst()) {
+
+                String editTitleText = mCursor.getString(1);
+                editTitle.setText(editTitleText);
+                String editJournalText = mCursor.getString(2);
+                editJournal.setText(editJournalText);
+                int moodProgress = mCursor.getInt(3);
+                moodBar.setProgress(moodProgress);
+
+            }
+        }
+
+        Button selectBtn = (Button) rootView.findViewById(R.id.selectBtn);
+
+        return rootView;
+
+    }
+
 
     private static void getData(Activity activity){
         data = new EditText[2];
@@ -87,46 +118,7 @@ public class EditJournalFragment extends Fragment {
         return false;
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            rowID = getArguments().getInt(ARG_ROWID);
-        }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_edit_journal, container, false);
-
-        EditText editTitle = (EditText) rootView.findViewById(R.id.editTitleText);
-        EditText editJournal = (EditText) rootView.findViewById(R.id.editJournalText);
-        SeekBar moodBar = (SeekBar) rootView.findViewById(R.id.moodBar);
-
-        String mSelectionClause = "_ID = ?";
-        String[] mSelectionArgs = new String[] {Integer.toString(rowID)};
-
-        Cursor mCursor = getActivity().getContentResolver().query(JournalContentProvider.CONTENT_URI, null, mSelectionClause, mSelectionArgs, null);
-
-        if (rowID != -1) {
-            if (mCursor != null && mCursor.moveToFirst()) {
-
-                String editTitleText = mCursor.getString(1);
-                editTitle.setText(editTitleText);
-                String editJournalText = mCursor.getString(2);
-                editJournal.setText(editJournalText);
-                int moodProgress = mCursor.getInt(3);
-                moodBar.setProgress(moodProgress);
-
-            }
-
-        }
-
-        return rootView;
-
-    }
 
 
 }
