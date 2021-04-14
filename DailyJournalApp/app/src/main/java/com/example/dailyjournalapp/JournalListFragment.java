@@ -79,7 +79,6 @@ public class JournalListFragment extends Fragment {
             }
         });
 
-        // TODO: update adapter?
 
         return rootView;
     }
