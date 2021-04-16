@@ -18,8 +18,9 @@ public class JournalContentProvider extends ContentProvider {
     public final static String COLUMN_TITLE = "title";
     public final static String COLUMN_TEXT = "text";
     public final static String COLUMN_MOOD = "mood";
+    public final static String COLUMN_DATE = "date";
+    public final static String COLUMN_TIME = "time";
     public final static String COLUMN_DELETED = "isDeleted";
-    // leaving date/time out for now
 
     private static int numEntries;
 
@@ -34,6 +35,8 @@ public class JournalContentProvider extends ContentProvider {
             COLUMN_TITLE + " TEXT, " +
             COLUMN_TEXT + " TEXT, " +
             COLUMN_MOOD + " INTEGER, " +
+            COLUMN_DATE + " TEXT, " +
+            COLUMN_TIME + " TEXT, " +
             COLUMN_DELETED + " INTEGER )";
 
 

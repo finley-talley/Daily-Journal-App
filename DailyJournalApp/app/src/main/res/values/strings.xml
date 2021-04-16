@@ -10,4 +10,7 @@
     <string name="deleteSuccess">Successfully deleted.</string>
     <string name="saveSuccess">Successfully saved.</string>
     <string name="entryAlreadyExistsToast">Entry already exists in database.</string>
+    <string name="setDateTimeLabel">When did this happen?</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
 </resources>
