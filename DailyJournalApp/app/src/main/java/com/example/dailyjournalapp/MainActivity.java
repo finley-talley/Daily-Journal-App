@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-
+    public int numDeleted = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void save(View view){
-        if(EditJournalFragment.save(this)){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
-                    .addToBackStack(null)
-                    .commit();
-        }
-    }
+//    public void save(View view){
+//        if(EditJournalFragment.save(this)){
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
+//                    .addToBackStack(null)
+//                    .commit();
+//        }
+//    }
 
 
 }
