@@ -75,90 +75,96 @@ public class ViewJournalFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private static void startData(Activity activity, View view){
-        TextView title = (TextView) view.findViewById(R.id.viewTitleText);
-        TextView text = (TextView) view.findViewById(R.id.viewJournalText);
-        SeekBar moodBar = (SeekBar) view.findViewById(R.id.moodBar);
+        TextView title = view.findViewById(R.id.viewTitleText);
+        TextView text = view.findViewById(R.id.viewJournalText);
+        SeekBar moodBar = view.findViewById(R.id.moodBar);
+        TextView date = view.findViewById(R.id.dateText);
+        TextView time = view.findViewById(R.id.timeText);
 
         if(currentEntry == -1){
             title.setVisibility(View.GONE);
             text.setVisibility(View.GONE);
             moodBar.setVisibility(View.GONE);
+            date.setVisibility(View.GONE);
+            time.setVisibility(View.GONE);
             ((TextView) view.findViewById(R.id.titleLabel)).setText(R.string.journalEmpty);
-            ((TextView) view.findViewById(R.id.journalLabel)).setVisibility(View.GONE);
-            ((TextView) view.findViewById(R.id.moodLabel)).setVisibility(View.GONE);
-            ((TextView) view.findViewById(R.id.viewJournalText)).setVisibility(View.GONE);
-            ((TextView) view.findViewById(R.id.badLabel)).setVisibility(View.GONE);
-            ((TextView) view.findViewById(R.id.okayLabel)).setVisibility(View.GONE);
-            ((TextView) view.findViewById(R.id.greatLabel)).setVisibility(View.GONE);
-            ((Button) view.findViewById(R.id.prevBtn)).setVisibility(View.GONE);
-            ((Button) view.findViewById(R.id.nextBtn)).setVisibility(View.GONE);
+            (view.findViewById(R.id.journalLabel)).setVisibility(View.GONE);
+            (view.findViewById(R.id.moodLabel)).setVisibility(View.GONE);
+            (view.findViewById(R.id.viewJournalText)).setVisibility(View.GONE);
+            (view.findViewById(R.id.badLabel)).setVisibility(View.GONE);
+            (view.findViewById(R.id.okayLabel)).setVisibility(View.GONE);
+            (view.findViewById(R.id.greatLabel)).setVisibility(View.GONE);
+            (view.findViewById(R.id.dateLabel)).setVisibility(View.GONE);
+            (view.findViewById(R.id.timeLabel)).setVisibility(View.GONE);
+            (view.findViewById(R.id.prevBtn)).setVisibility(View.GONE);
+            (view.findViewById(R.id.nextBtn)).setVisibility(View.GONE);
         }else {
             if(findPrevEntry(activity) == -1){
-                ((Button) view.findViewById(R.id.prevBtn)).setVisibility(View.INVISIBLE);
+                (view.findViewById(R.id.prevBtn)).setVisibility(View.INVISIBLE);
             }else{
-                ((Button) view.findViewById(R.id.prevBtn)).setVisibility(View.VISIBLE);
+                (view.findViewById(R.id.prevBtn)).setVisibility(View.VISIBLE);
             }
             if(findNextEntry(activity) == -1){
-                ((Button) view.findViewById(R.id.nextBtn)).setVisibility(View.INVISIBLE);
+                (view.findViewById(R.id.nextBtn)).setVisibility(View.INVISIBLE);
             }else{
-                ((Button) view.findViewById(R.id.nextBtn)).setVisibility(View.VISIBLE);
+                (view.findViewById(R.id.nextBtn)).setVisibility(View.VISIBLE);
             }
             Cursor cursor = UserContract.queryEntry(activity, currentEntry);
             while (cursor.moveToNext()) {
                 title.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_TITLE)));
                 text.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_TEXT)));
                 moodBar.setProgress(cursor.getInt(cursor.getColumnIndex(JournalContentProvider.COLUMN_MOOD)));
-                moodBar.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        return true;
-                    }
-                });
+                moodBar.setOnTouchListener((view1, motionEvent) -> true);
+                date.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_DATE)));
+                time.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_TIME)));
             }
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private static void setData(Activity activity) {
-        TextView title = (TextView) activity.findViewById(R.id.viewTitleText);
-        TextView text = (TextView) activity.findViewById(R.id.viewJournalText);
-        SeekBar moodBar = (SeekBar) activity.findViewById(R.id.moodBar);
+        TextView title = activity.findViewById(R.id.viewTitleText);
+        TextView text = activity.findViewById(R.id.viewJournalText);
+        SeekBar moodBar = activity.findViewById(R.id.moodBar);
+        TextView date = activity.findViewById(R.id.dateText);
+        TextView time = activity.findViewById(R.id.timeText);
 
         if (currentEntry == -1) {
             title.setVisibility(View.GONE);
             text.setVisibility(View.GONE);
             moodBar.setVisibility(View.GONE);
+            date.setVisibility(View.GONE);
+            time.setVisibility(View.GONE);
             ((TextView) activity.findViewById(R.id.titleLabel)).setText(R.string.journalEmpty);
-            ((TextView) activity.findViewById(R.id.journalLabel)).setVisibility(View.GONE);
-            ((TextView) activity.findViewById(R.id.moodLabel)).setVisibility(View.GONE);
-            ((TextView) activity.findViewById(R.id.viewJournalText)).setVisibility(View.GONE);
-            ((TextView) activity.findViewById(R.id.badLabel)).setVisibility(View.GONE);
-            ((TextView) activity.findViewById(R.id.okayLabel)).setVisibility(View.GONE);
-            ((TextView) activity.findViewById(R.id.greatLabel)).setVisibility(View.GONE);
-            ((Button) activity.findViewById(R.id.prevBtn)).setVisibility(View.GONE);
-            ((Button) activity.findViewById(R.id.nextBtn)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.journalLabel)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.moodLabel)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.viewJournalText)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.badLabel)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.okayLabel)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.greatLabel)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.dateLabel)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.timeLabel)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.prevBtn)).setVisibility(View.GONE);
+            (activity.findViewById(R.id.nextBtn)).setVisibility(View.GONE);
         } else {
             if(findPrevEntry(activity) == -1){
-                ((Button) activity.findViewById(R.id.prevBtn)).setVisibility(View.INVISIBLE);
+                (activity.findViewById(R.id.prevBtn)).setVisibility(View.INVISIBLE);
             }else{
-                ((Button) activity.findViewById(R.id.prevBtn)).setVisibility(View.VISIBLE);
+                (activity.findViewById(R.id.prevBtn)).setVisibility(View.VISIBLE);
             }
             if(findNextEntry(activity) == -1){
-                ((Button) activity.findViewById(R.id.nextBtn)).setVisibility(View.INVISIBLE);
+                (activity.findViewById(R.id.nextBtn)).setVisibility(View.INVISIBLE);
             }else{
-                ((Button) activity.findViewById(R.id.nextBtn)).setVisibility(View.VISIBLE);
+                (activity.findViewById(R.id.nextBtn)).setVisibility(View.VISIBLE);
             }
             Cursor cursor = UserContract.queryEntry(activity, currentEntry);
             while (cursor.moveToNext()) {
                 title.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_TITLE)));
                 text.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_TEXT)));
                 moodBar.setProgress(cursor.getInt(cursor.getColumnIndex(JournalContentProvider.COLUMN_MOOD)));
-                moodBar.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        return true;
-                    }
-                });
+                moodBar.setOnTouchListener((view, motionEvent) -> true);
+                date.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_DATE)));
+                time.setText(cursor.getString(cursor.getColumnIndex(JournalContentProvider.COLUMN_TIME)));
             }
         }
     }

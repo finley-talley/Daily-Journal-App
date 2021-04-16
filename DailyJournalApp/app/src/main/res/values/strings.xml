@@ -13,6 +13,11 @@
     <string name="badLabelTxt">Bad</string>
     <string name="okayLabelTxt">Okay</string>
     <string name="greatLabelTxt">Great</string>
+    <string name="setDateTimeLabel">When did this happen?</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
     <string name="emptyToast">Cannot leave fields empty.</string>
     <string name="dbEmptyToast">Cannot delete from empty journal.</string>
     <string name="deleteSuccess">Successfully deleted.</string>

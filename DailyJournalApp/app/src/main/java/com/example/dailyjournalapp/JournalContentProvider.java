@@ -16,8 +16,9 @@ public class JournalContentProvider extends ContentProvider {
     public final static String COLUMN_TITLE = "title";
     public final static String COLUMN_TEXT = "text";
     public final static String COLUMN_MOOD = "mood";
+    public final static String COLUMN_DATE = "date";
+    public final static String COLUMN_TIME = "time";
     public final static String COLUMN_DELETED = "deleted";
-    // leaving date/time out for now
 
     private static int numEntries;
 
@@ -36,7 +37,7 @@ public class JournalContentProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-            db.execSQL("drop table " + TABLE_NAME);   //ONLY USED FOR CLEARING DATABASE
+//            db.execSQL("drop table " + TABLE_NAME);   //ONLY USED FOR CLEARING DATABASE
             onCreate(db);
         }
     }
@@ -49,12 +50,14 @@ public class JournalContentProvider extends ContentProvider {
             COLUMN_TITLE + " TEXT, " +
             COLUMN_TEXT + " TEXT, " +
             COLUMN_MOOD + " INTEGER, " +
+            COLUMN_DATE + " TEXT, " +
+            COLUMN_TIME + " TEXT, " +
             COLUMN_DELETED + " INTEGER)";
 
 
     @Override
     public boolean onCreate() {
-        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
+//        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
         mOpenHelper = new MainDatabaseHelper(getContext());
         numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
         return true;
