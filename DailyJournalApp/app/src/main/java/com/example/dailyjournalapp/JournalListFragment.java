@@ -2,6 +2,7 @@ package com.example.dailyjournalapp;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,16 +49,20 @@ public class JournalListFragment extends Fragment {
         if (mCursor != null) {
             while (mCursor.moveToNext()) {
                 Map<String, String> hm = new HashMap<>();
-                String title = mCursor.getString(mCursor.getColumnIndex(JournalContentProvider.COLUMN_TITLE));
-                hm.put(JournalContentProvider.COLUMN_TITLE, title);
-                list.add(hm);
+                if (mCursor.getInt(mCursor.getColumnIndex(JournalContentProvider.COLUMN_DELETED)) == 0) {
+                    String title = mCursor.getString(mCursor.getColumnIndex(JournalContentProvider.COLUMN_TITLE));
+                    int entryNum = mCursor.getInt(mCursor.getColumnIndex(JournalContentProvider.COLUMN_ENTRYNUM));
+                    hm.put(JournalContentProvider.COLUMN_TITLE, title);
+                    hm.put(JournalContentProvider.COLUMN_ENTRYNUM, ""+entryNum);
+                    list.add(hm);
+                }
             }
         }
 
-        String[] from = new String[] {JournalContentProvider.COLUMN_TITLE};
-        int[] to = new int[] {android.R.id.text1};
+        String[] from = new String[] {JournalContentProvider.COLUMN_TITLE, JournalContentProvider.COLUMN_ENTRYNUM};
+        int[] to = new int[] {android.R.id.text1, android.R.id.text2};
 
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, android.R.layout.simple_list_item_1, from, to);
+        SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, android.R.layout.simple_list_item_2, from, to);
         adapter.notifyDataSetChanged();
 
         // setting adapter
@@ -69,7 +75,10 @@ public class JournalListFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 EditJournalFragment newFrag = new EditJournalFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("rowID", (i+1));
+                TextView entryNumText = (TextView) view.findViewById(android.R.id.text2);
+                int entryNum = Integer.parseInt(entryNumText.getText().toString().trim());
+                Log.i("MSG", "Putting rowID " + entryNum);
+                bundle.putInt("rowID", entryNum);
                 newFrag.setArguments(bundle);
 
                 getActivity().getSupportFragmentManager().beginTransaction()
@@ -78,6 +87,8 @@ public class JournalListFragment extends Fragment {
                         .commit();
             }
         });
+
+        mCursor.close();
 
 
         return rootView;

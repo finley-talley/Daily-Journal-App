@@ -63,6 +63,7 @@ public class EditJournalFragment extends Fragment {
                 editJournal.setText(editJournalText);
                 int moodProgress = mCursor.getInt(4);
                 moodBar.setProgress(moodProgress);
+                Log.i("MSG", "PRIMARY KEY " + mCursor.getInt(0) + " / ENTRYNUM " + mCursor.getInt(1));
 
             }
         }
@@ -73,27 +74,46 @@ public class EditJournalFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                getData(getActivity());
-
                 if (rowID == -1) { // this is a new entry
 
-                    ContentValues cv = getContentValues(getActivity());
-
-                    JournalContract.addEntry(getContext(), cv);
-
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
-                            .addToBackStack(null)
-                            .commit();
-                }
-                else { // we are updating an entry
-                    boolean success = save(getActivity());
+                    boolean success = save(getActivity(), 1);
                     if (success) {
                         getActivity().getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
                                 .addToBackStack(null)
                                 .commit();
                     }
+                }
+                else { // we are updating an entry
+                    boolean success = save(getActivity(), 2);
+                    if (success) {
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
+            }
+        });
+
+        Button deleteBtn = (Button) rootView.findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean success = delete(getActivity());
+                if (success) {
+                    Toast.makeText(getActivity(), "Journal entry deleted", Toast.LENGTH_SHORT).show();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
+                            .addToBackStack(null)
+                            .commit();
+                }
+                else {
+                    Toast.makeText(getActivity(), "New journal entry was not created", Toast.LENGTH_SHORT).show();
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameLayout, new JournalListFragment(), "journal_list_fragment")
+                            .addToBackStack(null)
+                            .commit();
                 }
             }
         });
@@ -110,16 +130,17 @@ public class EditJournalFragment extends Fragment {
         moodBar = (SeekBar) activity.findViewById(R.id.moodBar);
     }
 
-    private static ContentValues getContentValues(Activity activity) {
+    private static ContentValues getContentValues(Activity activity, int delete) {
         ContentValues values = new ContentValues();
         values.put(JournalContentProvider.COLUMN_ENTRYNUM, JournalContentProvider.getNumEntries()+1);
         values.put(JournalContentProvider.COLUMN_TITLE, data[TITLE].getText().toString());
         values.put(JournalContentProvider.COLUMN_TEXT, data[TEXT].getText().toString());
         values.put(JournalContentProvider.COLUMN_MOOD, moodBar.getProgress());
+        values.put(JournalContentProvider.COLUMN_DELETED, delete);
         return values;
     }
 
-    public static boolean save(Activity activity) {
+    public static boolean save(Activity activity, int type) {
         getData(activity);
 
         boolean error = false;
@@ -135,22 +156,40 @@ public class EditJournalFragment extends Fragment {
         }
 
         //Check ID against database
-        if (JournalContract.entryExists(activity.getApplicationContext(), JournalContentProvider.getNumEntries() + 1)) {
+        if (type == 1 && JournalContract.entryExists(activity.getApplicationContext(), JournalContentProvider.getNumEntries() + 1)) {
             Toast.makeText(activity, activity.getString(R.string.entryAlreadyExistsToast), Toast.LENGTH_SHORT).show();
             error = true;
         }
 
         //Success Toast
         if (!error) {
-            Toast.makeText(activity, activity.getString(R.string.saveSuccess), Toast.LENGTH_LONG).show();
-            JournalContract.editEntry(activity.getApplicationContext(), getContentValues(activity));
+            if (type == 1) { // new entry
+                getData(activity);
+                ContentValues cv = getContentValues(activity, 0);
+                JournalContract.addEntry(activity.getApplicationContext(), cv);
+                Toast.makeText(activity, activity.getString(R.string.saveSuccess), Toast.LENGTH_LONG).show();
+            }
+            else { // update entry
+                JournalContract.editEntry(activity.getApplicationContext(), getContentValues(activity, 0), rowID);
+                Toast.makeText(activity, activity.getString(R.string.saveSuccess), Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 
         return false;
     }
 
+    public static boolean delete(Activity activity) {
+    if (rowID != -1) {
+        getData(activity);
+        JournalContract.deleteEntry(activity.getApplicationContext(), getContentValues(activity, 1), rowID);
+        return true;
+    }
+    else {
+        return false;
+    }
 
+    }
 
 
 
