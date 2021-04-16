@@ -18,8 +18,9 @@ public class JournalContentProvider extends ContentProvider {
     public final static String COLUMN_TITLE = "title";
     public final static String COLUMN_TEXT = "text";
     public final static String COLUMN_MOOD = "mood";
+    public final static String COLUMN_DATE = "date";
+    public final static String COLUMN_TIME = "time";
     public final static String COLUMN_DELETED = "isDeleted";
-    // leaving date/time out for now
 
     private static int numEntries;
 
@@ -34,6 +35,8 @@ public class JournalContentProvider extends ContentProvider {
             COLUMN_TITLE + " TEXT, " +
             COLUMN_TEXT + " TEXT, " +
             COLUMN_MOOD + " INTEGER, " +
+            COLUMN_DATE + " TEXT, " +
+            COLUMN_TIME + " TEXT, " +
             COLUMN_DELETED + " INTEGER )";
 
 
@@ -59,7 +62,7 @@ public class JournalContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
+        //getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
         mOpenHelper = new MainDatabaseHelper(getContext());
         numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
         return true;
