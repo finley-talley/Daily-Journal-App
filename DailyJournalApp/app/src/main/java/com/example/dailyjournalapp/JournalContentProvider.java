@@ -62,7 +62,7 @@ public class JournalContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
+        //getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
         mOpenHelper = new MainDatabaseHelper(getContext());
         numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
         return true;
