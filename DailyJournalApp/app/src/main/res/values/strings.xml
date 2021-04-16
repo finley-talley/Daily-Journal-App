@@ -1,13 +1,23 @@
 <resources>
     <string name="app_name">Daily Journal App</string>
+    <string name="journalEmpty">Finished journal entries are stored here!</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
     <string name="set_notif">Please choose the time you\'d like to be reminded to enter into a journal each day.</string>
     <string name="select">Select</string>
     <string name="titleLabelTxt">Title</string>
     <string name="titleHint">What I did today</string>
     <string name="journalLabelTxt">Journal</string>
     <string name="journalHint">Today, I woke up and had a delicious breakfast. And then, I…</string>
+    <string name="moodLabelTxt">Mood</string>
+    <string name="badLabelTxt">Bad</string>
+    <string name="okayLabelTxt">Okay</string>
+    <string name="greatLabelTxt">Great</string>
     <string name="emptyToast">Cannot leave fields empty.</string>
+    <string name="dbEmptyToast">Cannot delete from empty journal.</string>
     <string name="deleteSuccess">Successfully deleted.</string>
     <string name="saveSuccess">Successfully saved.</string>
-    <string name="entryAlreadyExistsToast">Entry already exists in database.</string>
+    <string name="opt_new_entry">Make New Journal Entry</string>
+    <string name="opt_delete_entry">Delete Current Journal Entry</string>
+    <string name="opt_set_notif">Set Notification Time</string>
 </resources>

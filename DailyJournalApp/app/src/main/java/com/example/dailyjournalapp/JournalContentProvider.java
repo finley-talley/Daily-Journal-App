@@ -3,13 +3,11 @@ package com.example.dailyjournalapp;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.util.Log;
 
 public class JournalContentProvider extends ContentProvider {
     public final static String DBNAME = "JournalDB";
@@ -18,6 +16,7 @@ public class JournalContentProvider extends ContentProvider {
     public final static String COLUMN_TITLE = "title";
     public final static String COLUMN_TEXT = "text";
     public final static String COLUMN_MOOD = "mood";
+    public final static String COLUMN_DELETED = "deleted";
     // leaving date/time out for now
 
     private static int numEntries;
@@ -37,7 +36,7 @@ public class JournalContentProvider extends ContentProvider {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-//            db.execSQL("drop table " + TABLE_NAME);   //ONLY USED FOR CLEARING DATABASE
+            db.execSQL("drop table " + TABLE_NAME);   //ONLY USED FOR CLEARING DATABASE
             onCreate(db);
         }
     }
@@ -49,11 +48,13 @@ public class JournalContentProvider extends ContentProvider {
             COLUMN_ENTRYNUM + " INTEGER PRIMARY KEY, " +
             COLUMN_TITLE + " TEXT, " +
             COLUMN_TEXT + " TEXT, " +
-            COLUMN_MOOD + " INTEGER)";
+            COLUMN_MOOD + " INTEGER, " +
+            COLUMN_DELETED + " INTEGER)";
+
 
     @Override
     public boolean onCreate() {
-//        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
+        getContext().deleteDatabase(DBNAME);  //ONLY USED FOR CLEARING DATABASE
         mOpenHelper = new MainDatabaseHelper(getContext());
         numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
         return true;
@@ -61,7 +62,9 @@ public class JournalContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return mOpenHelper.getWritableDatabase().delete(TABLE_NAME, selection, selectionArgs);
+        int id = mOpenHelper.getWritableDatabase().delete(TABLE_NAME, selection, selectionArgs);
+        numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
+        return id;
     }
 
     @Override
@@ -84,7 +87,6 @@ public class JournalContentProvider extends ContentProvider {
 
         long id = mOpenHelper.getWritableDatabase().insert(TABLE_NAME, null, values);
         numEntries = (int) DatabaseUtils.queryNumEntries(mOpenHelper.getReadableDatabase(), TABLE_NAME, null);
-        Log.i("MSG", "Number of Entries: " + numEntries + " [JournalContentProvider]");
         return Uri.withAppendedPath(CONTENT_URI, "" + id);
     }
 

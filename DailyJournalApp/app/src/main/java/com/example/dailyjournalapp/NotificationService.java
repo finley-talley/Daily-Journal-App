@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.core.app.NotificationManagerCompat;
 
@@ -17,7 +16,6 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i("MSG", "Running service [NotificationService]");
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle("Daily Journal");
         builder.setContentText("Click to start today's journal entry!");

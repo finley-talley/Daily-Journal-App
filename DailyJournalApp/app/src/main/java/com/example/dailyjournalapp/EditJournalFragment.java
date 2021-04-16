@@ -8,21 +8,11 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.Toast;
-
-import java.util.Date;
-
-import static java.text.DateFormat.getDateTimeInstance;
 
 public class EditJournalFragment extends Fragment {
     private static final int TITLE = 0, TEXT = 1;
@@ -45,10 +35,11 @@ public class EditJournalFragment extends Fragment {
 
     private static ContentValues getContentValues(Activity activity) {
         ContentValues values = new ContentValues();
-        values.put(JournalContentProvider.COLUMN_ENTRYNUM, JournalContentProvider.getNumEntries()+1);
+        values.put(JournalContentProvider.COLUMN_ENTRYNUM, JournalContentProvider.getNumEntries());
         values.put(JournalContentProvider.COLUMN_TITLE, data[TITLE].getText().toString());
         values.put(JournalContentProvider.COLUMN_TEXT, data[TEXT].getText().toString());
         values.put(JournalContentProvider.COLUMN_MOOD, moodBar.getProgress());
+        values.put(JournalContentProvider.COLUMN_DELETED, 0);
         return values;
     }
 
@@ -65,12 +56,6 @@ public class EditJournalFragment extends Fragment {
                 Toast.makeText(activity, activity.getString(R.string.emptyToast), Toast.LENGTH_SHORT).show();
                 error = true;
             }
-        }
-
-        //Check ID against database
-        if(UserContract.entryExists(activity.getApplicationContext(), JournalContentProvider.getNumEntries()+1)){
-            Toast.makeText(activity, activity.getString(R.string.entryAlreadyExistsToast), Toast.LENGTH_SHORT).show();
-            error = true;
         }
 
         //Success Toast
